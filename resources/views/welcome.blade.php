@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="{{ asset('css/filament/filament/home.css') }}">
 </head>
 <body>
-
 <header class="navbar">
   <div class="container navbar__inner">
     <a href="#" class="brand">
@@ -28,7 +27,6 @@
     <a href="#ppdb" class="btn btn--primary btn--sm">Daftar Sekarang</a>
   </div>
 </header>
-
 <section class="hero" id="home">
   <div class="hero__overlay"></div>
   <div class="container hero__content">
@@ -42,7 +40,6 @@
   </div>
 </section>
 
-<!-- ================= STATS STRIP ================= -->
 <section class="stats">
   <div class="container stats__grid">
     <div class="stat">
@@ -76,7 +73,6 @@
   </div>
 </section>
 
-<!-- ================= ABOUT ================= -->
 <section class="section" id="about">
   <div class="container">
     <div class="section__head">
@@ -165,66 +161,65 @@
   </div>
 </section>
 
-<!-- ================= GALLERY ================= -->
 <section class="section section--muted" id="gallery">
   <div class="container">
     <div class="section__head section__head--split">
       <div>
-        <h2 class="section__title section__title--sm">School Life Nusa Bangsa</h2>
-        <p class="section__desc">Suasana dinamis fasilitas pembelajaran, kegiatan riset laboratorium, dan ekstrakurikuler.</p>
+        <h2 class="section__title section__title--sm">Gallery Album</h2>
+        <p class="section__desc">Kumpulan kegiatan sekolah yang diambil dari data album.</p>
       </div>
       <a href="#" class="link-arrow">Lihat Galeri Lengkap</a>
     </div>
 
     <div class="gallery-grid">
-      <div class="gallery-grid__main">
-        <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=900&q=80" alt="Perpustakaan sekolah">
-      </div>
-      <div class="gallery-grid__side">
-        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&q=80" alt="Praktik laboratorium">
-        <img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=500&q=80" alt="Kegiatan olahraga">
-      </div>
-      <div class="gallery-grid__bottom">
-        <img src="https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=900&q=80" alt="Pertunjukan orkestra siswa">
-      </div>
+      @forelse ($albums as $index => $album)
+        @if ($index === 0)
+          <div class="gallery-grid__main">
+            <img src="{{ asset('storage/' . $album->foto) }}" alt="{{ $album->judul }}">
+          </div>
+        @elseif ($index === 1 || $index === 2)
+          <div class="gallery-grid__side">
+            <img src="{{ asset('storage/' . $album->foto) }}" alt="{{ $album->judul }}">
+          </div>
+        @else
+          <div class="gallery-grid__bottom">
+            <img src="{{ asset('storage/' . $album->foto) }}" alt="{{ $album->judul }}">
+          </div>
+        @endif
+      @empty
+        <div class="gallery-grid__main">
+          <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=900&q=80" alt="Default gallery">
+        </div>
+      @endforelse
     </div>
   </div>
 </section>
 
-<!-- ================= TEAM ================= -->
 <section class="section" id="team">
   <div class="container">
     <div class="section__head">
-      <h2 class="section__title section__title--sm">Pimpinan &amp; Dewan Akademik</h2>
-      <p class="section__desc">Didukung para praktisi industri senior, akademisi lulusan universitas terbaik, dan instruktur vokasi bersertifikat.</p>
+      <h2 class="section__title section__title--sm">Staf &amp; Team</h2>
+      <p class="section__desc">Data team diambil dari artikel/staf yang tersedia di sistem.</p>
     </div>
 
     <div class="team-grid">
-      <div class="team-card">
-        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Dr. Arthur Pendelton">
-        <h4>Dr. Arthur Pendelton</h4>
-        <span>Kepala Sekolah Nusa Bangsa</span>
-      </div>
-      <div class="team-card">
-        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80&sat=-100" alt="Dr. Maria Gonzalez">
-        <h4>Dr. Maria Gonzalez, Apt.</h4>
-        <span>Kepala Jurusan Analis Kimia &amp; Farmasi</span>
-      </div>
-      <div class="team-card">
-        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="Prof. James Sterling">
-        <h4>Prof. James Sterling, M.Kom.</h4>
-        <span>Kepala Jurusan PPLG &amp; Teknologi Industri</span>
-      </div>
-      <div class="team-card">
-        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&q=80" alt="Sarah Chen, M.Ed.">
-        <h4>Sarah Chen, M.Ed.</h4>
-        <span>Koordinator PPDB &amp; Administrasi Industri</span>
-      </div>
+      @forelse ($team as $member)
+        <div class="team-card">
+          <img src="{{ $member->image ? asset('storage/' . $member->image) : 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80' }}" alt="{{ $member->title }}">
+          <h4>{{ $member->title }}</h4>
+          <span>{{ $member->category->name ?? 'Tim Sekolah' }}</span>
+        </div>
+      @empty
+        <div class="team-card">
+          <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" alt="Default team">
+          <h4>Tim Sekolah</h4>
+          <span>Staff Administrasi</span>
+        </div>
+      @endforelse
     </div>
   </div>
 </section>
 
-<!-- ================= PROGRAM KEAHLIAN ================= -->
 <section class="section section--muted" id="programs">
   <div class="container">
     <div class="section__head">
@@ -234,71 +229,61 @@
     </div>
 
     <div class="program-grid">
-      <div class="program-card">
-        <div class="program-card__top">
-          <div class="program-card__icon">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M9 3h6M10 3v6.2L5.5 18a2 2 0 0 0 1.8 3h9.4a2 2 0 0 0 1.8-3L14 9.2V3" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      @forelse ($categories as $category)
+        <div class="program-card">
+          <div class="program-card__top">
+            <div class="program-card__icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 3h6M10 3v6.2L5.5 18a2 2 0 0 0 1.8 3h9.4a2 2 0 0 0 1.8-3L14 9.2V3" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            </div>
+            <span class="program-card__duration">Program Studi</span>
           </div>
-          <span class="program-card__duration">3 &amp; 4 Tahun</span>
+          <h3>{{ $category->name }}</h3>
+          <span class="program-card__sub">JURUSAN</span>
+          <p>{{ Str::limit($category->description, 180) }}</p>
+          <ul class="check-list">
+            <li>Link and match industri</li>
+            <li>Praktik lapangan &amp; project</li>
+          </ul>
+          <a href="#ppdb" class="link-arrow">Enrollment / Pendaftaran</a>
         </div>
-        <h3>Analis Kimia</h3>
-        <span class="program-card__sub">ANALISIS KIMIA</span>
-        <p>Laboratorium terkendali, analisa instrumen kimia modern (Spektofotometri, Kromatografi), validasi mutu, dan keselamatan K3, dan kontrol kualitas standar industri manufaktur.</p>
-        <ul class="check-list">
-          <li>Quality Control &amp; Assurance Kimia</li>
-          <li>Verifikasi Tenaga Kefarmasian BPOM</li>
-        </ul>
-        <a href="#" class="link-arrow">Lihat Kurikulum</a>
-      </div>
-
-      <div class="program-card">
-        <div class="program-card__top">
-          <div class="program-card__icon">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.8"/><path d="M12 16v5M7 21h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      @empty
+        <div class="program-card">
+          <div class="program-card__top">
+            <div class="program-card__icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 3h6M10 3v6.2L5.5 18a2 2 0 0 0 1.8 3h9.4a2 2 0 0 0 1.8-3L14 9.2V3" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            </div>
+            <span class="program-card__duration">Program Studi</span>
           </div>
-          <span class="program-card__duration">3 Tahun</span>
+          <h3>Belum ada jurusan</h3>
+          <span class="program-card__sub">JURUSAN</span>
+          <p>Silakan tambahkan data program studi dari panel admin.</p>
+          <ul class="check-list">
+            <li>Program belum tersedia</li>
+            <li>Tambah data di admin</li>
+          </ul>
+          <a href="#ppdb" class="link-arrow">Enrollment / Pendaftaran</a>
         </div>
-        <h3>Farmasi</h3>
-        <span class="program-card__sub">FARMASI KLINIS &amp; KOMUNITAS</span>
-        <p>Farmakologi, formulasi dan peracikan sediaan obat, standardisasi informasi klinis, administrasi apotek dan Good Manufacturing Practice (GMP) industri obat &amp; herbal.</p>
-        <ul class="check-list">
-          <li>Asisten Tenaga Kefarmasian Berlisensi</li>
-          <li>Praktik Apotek &amp; Rumah Sakit Mitra</li>
-        </ul>
-        <a href="#" class="link-arrow">Lihat Kurikulum</a>
-      </div>
-
-      <div class="program-card">
-        <div class="program-card__top">
-          <div class="program-card__icon">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="12" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          </div>
-          <span class="program-card__duration">3 Tahun</span>
-        </div>
-        <h3>PPLG</h3>
-        <span class="program-card__sub">REKAYASA PERANGKAT LUNAK</span>
-        <p>Pemrograman web &amp; mobile modern, rekayasa perangkat lunak agile, komputasi awan (Cloud), berorientasi bisnis IoT terapan, serta basis data relasional &amp; NoSQL.</p>
-        <ul class="check-list">
-          <li>Full-Stack Web &amp; Mobile App Development</li>
-          <li>Portofolio Proyek Standar Tech Startup</li>
-        </ul>
-        <a href="#" class="link-arrow">Lihat Kurikulum</a>
-      </div>
+      @endforelse
     </div>
   </div>
 </section>
 
-<!-- ================= TESTIMONIAL ================= -->
 <section class="section">
   <div class="container">
-    <blockquote class="testimonial">
-      <p>"Nusa Bangsa tidak hanya mengajarkan keahlian teknis berkualitas tinggi, namun menanamkan budaya kerja profesional, disiplin, dan integritas yang menjadi modal utama karier saya di industri internasional."</p>
-      <cite>— Dimas Arya, S.TR.T., Alumni Nusa Bangsa, Senior Lead Quality Analyst</cite>
-    </blockquote>
+    @forelse ($testimonials as $testimonial)
+      <blockquote class="testimonial">
+        <p>"{{ $testimonial->content }}"</p>
+        <cite>— {{ $testimonial->user_name }}, Alumni</cite>
+      </blockquote>
+    @empty
+      <blockquote class="testimonial">
+        <p>"Nusa Bangsa tidak hanya mengajarkan keahlian teknis berkualitas tinggi..."</p>
+        <cite>— Dimas Arya, S.TR.T., Alumni Nusa Bangsa</cite>
+      </blockquote>
+    @endforelse
   </div>
 </section>
 
-<!-- ================= PPDB / ADMISSIONS ================= -->
 <section class="section section--muted" id="ppdb">
   <div class="container">
     <div class="section__head">
@@ -311,7 +296,7 @@
       <div class="step-card">
         <div class="step-card__num">1</div>
         <h4>Registrasi Online</h4>
-        <p>Mengisi formulir Sistelim calon siswa dan memilih jurusan keahlian pilihan.</p>
+        <p>Mengisi formulir Sistem calon siswa dan memilih jurusan keahlian pilihan.</p>
       </div>
       <div class="step-card">
         <div class="step-card__num">2</div>
@@ -334,21 +319,20 @@
       <div class="cta-banner__text">
         <span class="pill">Gelombang PPDB Dibuka</span>
         <h3>Siap Menjadi Bagian dari Nusa Bangsa?</h3>
-        <p>Tersedia jalur Beasiswa Prestasi Akademik/Non-Akademik hingga TOTO dan Jalur Reguler Mitra Industri. Kuota putra-putri terbaik daftar terbatas.</p>
+        <p>Tersedia jalur Beasiswa Prestasi Akademik/Non-Akademik hingga Jalur Reguler Mitra Industri. Kuota putra-putri terbaik daftar terbatas.</p>
         <div class="cta-banner__dates">
           <span><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 3v3M16 3v3" stroke="currentColor" stroke-width="1.8"/></svg> Gelombang 1: Jan – Apr</span>
           <span><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 3v3M16 3v3" stroke="currentColor" stroke-width="1.8"/></svg> Gelombang 2: Mei – Jul</span>
         </div>
       </div>
       <div class="cta-banner__actions">
-        <a href="#" class="btn btn--primary">Daftar Sekarang</a>
+        <a href="#" class="btn btn--primary">Enrollment / Pendaftaran</a>
         <a href="#" class="btn btn--outline-light">Unduh Brosur PPDB</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="container footer__grid">
     <div class="footer__about">
@@ -358,8 +342,8 @@
       </a>
       <p>Sekolah Menengah Kejuruan berorientasi A, mencetak tenaga profesional di bidang Kimia Analis, Farmasi Klinis, dan Rekayasa Perangkat Lunak.</p>
       <div class="footer__contact">
-        <p><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9.5" r="2.3" stroke="currentColor" stroke-width="1.8"/></svg> Jl. Nusa Bangsa No. 128, Kompleks Vokasi Terpadu, Kota Pendidikan, Indonesia</p>
-        <p><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M4 5h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 14l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg> +62 0231-789-1998 / 0812-3456-7890</p>
+        <p><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="9.5" r="2.3" stroke="currentColor" stroke-width="1.8"/></svg> Jl. KH. Sholeh Iskandar Km.4 RT04/04 No.91, Cibadak, Tanah Sareal, Bogor, Jawa Barat 16166</p>
+        <p><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M4 5h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 14l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 2 7a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg> (0251) 7533816</p>
         <p><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="m3 7 9 6 9-6" stroke="currentColor" stroke-width="1.8"/></svg> ppdb@nusabangsa.sch.id</p>
       </div>
     </div>
@@ -398,21 +382,31 @@
     </div>
   </div>
 
-  <div class="footer__map">
-    <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=1400&q=60" alt="Peta lokasi kampus SMK Nusa Bangsa">
-    <div class="footer__map-pin">
-      <span class="footer__map-dot"></span>
-      Lokasi Kampus SMK Nusa Bangsa
-    </div>
+  <div class="footer__map" style="position: relative; width: 100%; height: 350px;">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3963.7087640244795!2d106.78652307587002!3d-6.558394464112196!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69c4f7be415b39%3A0xbcc0e51ee11c52d8!2sSMK%20AK%20NUSA%20BANGSA!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid" 
+      width="100%" 
+      height="100%" 
+      style="border:0;" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
   </div>
 
   <div class="footer__bottom">
     <div class="container footer__bottom-inner">
       <span>© 2026 SMK Nusa Bangsa. Seluruh Hak Cipta Dilindungi Undang-Undang.</span>
       <div class="footer__social">
-        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M14 9h3V6h-3a4 4 0 0 0-4 4v2H7v3h3v6h3v-6h3l1-3h-4v-2a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></a>
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-        <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" width="16" height="16"><rect x="2" y="6" width="20" height="12" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M10 9.5v5l5-2.5-5-2.5Z" fill="currentColor"/></svg></a>
+        <a href="https://instagram.com/smkaknusabangsa" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+        <a href="https://tiktok.com/@smkaknusabangsa" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="https://github.com/raihanAlk" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="none" width="16" height="16"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" fill="currentColor"/></svg>
+        </a>
       </div>
     </div>
   </div>
